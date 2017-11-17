@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="index.html"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="adminui.js"></script>
+<link rel="stylesheet" type="text/css" href="adminui.css" media="screen" />
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>AdminUI</title>
 </head>
 <body>
-howdy dooty
+<div>
+    <span>Grade Level<br>
+        <select id="grade_level" title="Grade Level">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+    </span><br>
+    <span>Subject<br>
+        <select id="subject" title="Subject">
+            <option value="math">Math</option>
+            <option value="science">Science</option>
+        </select>
+    </span><br>
+</div>
+<div>Customizable Elements<br>
+    <select id="elmChoices" title="Element Choices">
+    </select>
+</div>
+<div>Customizable Attributes<br>
+    <select id="elmOpts" title="Customizable Attributes">
+    </select>
+</div>
+<div>Attribute Options<br>
+    <select id="attrOpts" title="Attribute Options">
+    </select>
+</div>
+<div id="examples">
+
+</div>
+<button id="export" onclick="exportTheme();">Export Theme</button>
 </body>
 </html>
