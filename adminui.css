@@ -1,4 +1,12 @@
-/*#examples {*/
-    /*width: 500px;*/
-    /*height: 500px;*/
-/*}*/
+#customizePane {
+    float: left;
+    width: 200px;
+
+}
+
+#examplePane {
+    float: right;
+    width: 400px;
+    height: 400px;
+    border: groove green 5px;
+}

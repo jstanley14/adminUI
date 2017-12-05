@@ -8,33 +8,35 @@
     <title>AdminUI</title>
 </head>
 <body>
-<div>
-    <span>Grade Level<br>
-        <select id="grade_level" title="Grade Level">
-            <option value="1">1</option>
-            <option value="2">2</option>
+<div id="customizePane">
+    <div>
+        <span>Grade Level<br>
+            <select id="grade_level" title="Grade Level">
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+        </span><br>
+        <span>Subject<br>
+            <select id="subject" title="Subject">
+                <option value="math">Math</option>
+                <option value="science">Science</option>
+            </select>
+        </span><br>
+    </div>
+    <div>Customizable Elements<br>
+        <select id="elmChoices" title="Element Choices">
         </select>
-    </span><br>
-    <span>Subject<br>
-        <select id="subject" title="Subject">
-            <option value="math">Math</option>
-            <option value="science">Science</option>
+    </div>
+    <div>Customizable Attributes<br>
+        <select id="elmOpts" title="Customizable Attributes">
         </select>
-    </span><br>
+    </div>
+    <div>Attribute Options<br>
+        <select id="attrOpts" title="Attribute Options">
+        </select>
+    </div>
 </div>
-<div>Customizable Elements<br>
-    <select id="elmChoices" title="Element Choices">
-    </select>
-</div>
-<div>Customizable Attributes<br>
-    <select id="elmOpts" title="Customizable Attributes">
-    </select>
-</div>
-<div>Attribute Options<br>
-    <select id="attrOpts" title="Attribute Options">
-    </select>
-</div>
-<div id="examples">
+<div id="examplePane">
 
 </div>
 <button id="export" onclick="exportTheme();">Export Theme</button>
