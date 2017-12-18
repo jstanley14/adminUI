@@ -4,6 +4,10 @@
 
 }
 
+#elementPane {
+    width: 500px;
+}
+
 #examplePane {
     float: right;
     width: 400px;
