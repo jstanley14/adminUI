@@ -47,14 +47,13 @@ let adminUI = {
         // Create categories.
         Object.keys(elmsByCategory).forEach(key => {
             let cat = $('<div/>');
-            cat.append($('<h1/>').text(key));
+            let catName = $('<h1/>').addClass('category').text(key);
+            cat.append(catName);
 
             let elmsBySection = {};
             elmsByCategory[key].forEach(elm => {
                 (elmsBySection[elm.section] = elmsBySection[elm.section] || []).push(elm)
             });
-
-            console.log(elmsBySection['Section 1']);
 
             // Create sections.
             Object.keys(elmsBySection).forEach(key => {
@@ -92,7 +91,7 @@ let adminUI = {
 
             $('#elementPane').append(cat);
         });
-        $('.elementChoice').click(evt => {
+        $('.elementChoice, .category').click(evt => {
             $(evt.target).siblings().toggle()
         } );
     },
@@ -140,14 +139,12 @@ let adminUI = {
             adminUI.theme[key].options.forEach(option => {
                 config.gradeLevels.forEach(gradeLevel => {
                     config.subjects.forEach(subject => {
-                        // option name, value
                         varsFile += `@${gradeLevel}_${subject}_${tagName}_${option.name}: ${option.value};\n`;
                     });
                 });
             });
         });
         alert(varsFile);
-        //$('#examplePane').text(varsFile);
     }
 };
 
