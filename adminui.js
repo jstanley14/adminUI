@@ -145,6 +145,7 @@ let adminUI = {
             });
         });
         alert(varsFile);
+        console.log(varsFile);
     }
 };
 
