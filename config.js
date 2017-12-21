@@ -41,7 +41,7 @@ let elements = [
             [gradeLevels[0]]: [{
                 subject: 'all',
                 fontSize: '10px',
-                fontColor: "#FFFFFF",
+                fontColor: "#000000",
                 fontFamily: 'Poppins',
                 fontWeight: 400,
                 textTransform: 'none',
@@ -51,7 +51,7 @@ let elements = [
             [gradeLevels[1]]: [{
                 subject: 'all',
                 fontSize: '10px',
-                fontColor: "#FFFFFF",
+                fontColor: "#000000",
                 fontFamily: 'Poppins',
                 fontWeight: 400,
                 textTransform: 'none',

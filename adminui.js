@@ -99,8 +99,16 @@ let adminUI = {
 
     updateElmExample: (elm) => {
         Object.keys(elm.options).forEach(opt => {
+            let optName;
+            switch (opt) {
+                case 'fontColor':
+                    optName = 'color';
+                    break;
+                default:
+                    optName = opt;
+            }
             $(`div.element#${elm.name} .elmExample`)
-                .css(opt, adminUI.elementsState[elm.name][opt])
+                .css(optName, adminUI.elementsState[elm.name][opt])
         });
     },
 
