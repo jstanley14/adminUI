@@ -16,3 +16,9 @@
     height: 600px;
     background: url("example_act.png") top left / contain no-repeat;
 }
+
+.colorExample {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}

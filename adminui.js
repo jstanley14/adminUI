@@ -1,100 +1,178 @@
 
 let adminUI = {
-    subject: config.subjects[0],
-    gradeLevel: config.gradeLevels[0],
+    subject: subjects[0],
+    gradeLevel: gradeLevels[0],
     theme: {},
+    elementsState: {},
+    elms: [],
 
     initUI: function() {
         $('#grade_level, #subject, #elementPane').empty();
-        config.gradeLevels.forEach(function(grade) {
+        gradeLevels.forEach(function(grade) {
             let option = $('<option/>');
             option.text(grade);
             option.val(grade);
             $('#grade_level').append(option);
         });
-        config.subjects.forEach(function(subject) {
+        subjects.forEach(function(subject) {
             let option = $('<option/>');
             option.text(subject);
             option.val(subject);
             $('#subject').append(option);
         });
 
-        $('#grade_level').change(function() {
+        $('#grade_level').change(() => {
             adminUI.gradeLevel = $('#grade_level').find('option:selected').val();
             $('#elementPane').empty();
             adminUI.theme = {};
             adminUI.loadSelections();
         });
 
-        $('#subject').change(function() {
+        $('#subject').change(() => {
             adminUI.subject = $('#subject').find('option:selected').val()
+            adminUI.theme = {};
+            adminUI.loadSelections();
         });
 
         adminUI.loadSelections();
     },
 
     loadSelections: function() {
-        let elms = Object.filter(config.elements, elm =>
-            elm.gradeLevel === 'all' || elm.gradeLevel === adminUI.gradeLevel
-        );
+        adminUI.elms = elements.filter(elm =>
+            elm.gradeLevel === 'all' || elm.gradeLevel === adminUI.gradeLevel);
 
-        // Group elms by category.
-        let elmsByCategory = {};
-        Object.keys(elms).forEach(key => {
-            (elmsByCategory[elms[key].category] = elmsByCategory[elms[key].category] || []).push(elms[key]);
-        });
+        // Group by category and section.
 
-        // Create categories.
-        Object.keys(elmsByCategory).forEach(key => {
-            let cat = $('<div/>');
-            let catName = $('<h1/>').addClass('category').text(key);
-            cat.append(catName);
+        let elmsByCategoryAndSection = adminUI.elms.reduce((acc, cur) => {
+            acc[cur.category] = acc[cur.category] || {};
+            acc[cur.category][cur.section] = acc[cur.category][cur.section] || [];
+            acc[cur.category][cur.section].push(cur);
+            return acc;
+        }, {});
 
-            let elmsBySection = {};
-            elmsByCategory[key].forEach(elm => {
-                (elmsBySection[elm.section] = elmsBySection[elm.section] || []).push(elm)
-            });
+        // Place on page using proper saved options.
 
-            // Create sections.
-            Object.keys(elmsBySection).forEach(key => {
-                let sec = $('<div/>');
-                sec.append($('<h3/>').text(key));
-
-                elmsBySection[key].forEach(elm => {
-                   let e = $('<div/>');
-                   e.attr('id', elm.name);
-                   let elmName = $('<h5/>').addClass('elementChoice').text(elm.friendlyName);
-                   e.append(elmName);
-
-                   // Create element attribute selections.
-                   elm.options.forEach(opt => {
-                       let attr = $('<div/>');
-                       let optName = Object.keys(opt)[0];
-                       attr.attr('id', optName);
-                       attr.addClass('elementAttributeChoice');
-                       attr.append($('<span/>').text(optName));
-                       let select = $('<select/>');
-                       opt[optName].forEach(choice => {
-                           let option = $('<option/>');
-                           option.text(choice);
-                           option.val(choice);
-                           select.append(option);
-                       });
-                       attr.append(select);
-                       e.append(attr);
-                   });
-                   sec.append(e);
-                });
-
-                cat.append(sec);
-            });
-
-            $('#elementPane').append(cat);
-        });
-        $('.elementChoice, .category').click(evt => {
-            $(evt.target).siblings().toggle()
-        } );
+        adminUI.setupPage(elmsByCategoryAndSection);
+        adminUI.elms.forEach((elm) => adminUI.updateElmExample(elm));
     },
+
+    setupPage: (elmsByCatAndSec) => {
+        Object.keys(elmsByCatAndSec).forEach(category => {
+            let catDiv = $('<div/>').addClass('category').attr('id', category);
+            let catTitle = $('<h2/>').addClass('catTitle').text(category);
+            catDiv.append(catTitle);
+
+            Object.keys(elmsByCatAndSec[category]).forEach(section => {
+                let secDiv = $('<div/>').addClass('section').attr('id', section);
+                let secTitle = $('<h4/>').addClass('secTitle').text(section);
+                secDiv.append(secTitle);
+
+                elmsByCatAndSec[category][section].forEach(elm => {
+                    adminUI.loadElm(elm);
+                    secDiv.append(adminUI.createElmDiv(elm));
+                });
+                catDiv.append(secDiv);
+            });
+            $('#elementPane').append(catDiv);
+        });
+    },
+
+    createElmDiv: (elm) => {
+        let elmDiv = $('<div/>').addClass('element').attr('id', elm.name);
+        let elmTitle = $('<span/>').addClass('elmTitle').text(elm.friendlyName);
+        elmDiv.append(elmTitle);
+
+        let elmExample = $('<span/>').addClass('elmExample').text('Example');
+        elmDiv.append(elmExample);
+
+        Object.keys(elm.options).forEach((opt) => elmDiv.append(adminUI.createOption(elm, opt)));
+
+        return elmDiv;
+    },
+
+    loadElm: (elm) => {
+        adminUI.elementsState[elm.name] = elm.savedOptions[adminUI.gradeLevel]
+            .find((gradeLevelOptions) => (
+                gradeLevelOptions.subject === 'all' || gradeLevelOptions.subject === adminUI.subject
+            ));
+    },
+
+    updateElmExample: (elm) => {
+        Object.keys(elm.options).forEach(opt => {
+            $(`div.element#${elm.name} .elmExample`)
+                .css(opt, adminUI.elementsState[elm.name][opt])
+        });
+    },
+
+    createOption: (elm, opt) => {
+        let optDiv = $('<div/>').addClass('option');
+        let optTitle = $('<span/>').addClass('optTitle').text(opt);
+        optDiv.append(optTitle);
+
+        switch (opt) {
+            case 'fontFamily':
+            case 'fontWeight':
+            case 'textTransform': {
+                let optChoices = $('<select/>').addClass('optChoices');
+                choices[`${opt}Choices`].forEach((ch) => {
+                    optChoices.append($('<option/>').text(ch).val(ch))
+                });
+                optChoices.val(adminUI.elementsState[elm.name][opt]);
+                optDiv.append(optChoices);
+                optChoices.change(() => {
+                    adminUI.elementsState[elm.name][opt] = optChoices.val();
+                    adminUI.updateElmExample(elm);
+                });
+                break;
+            }
+            case 'fontSize':
+            case 'lineHeight':
+            case 'letterSpacing': {
+                let optChoices = $('<select/>').addClass('optChoices');
+                Array.fromRange(choices[`${opt}ChoicesRange`]).forEach((ch) => {
+                    optChoices.append($('<option/>').text(ch).val(ch))
+                });
+                optChoices.val(adminUI.elementsState[elm.name][opt]);
+                optDiv.append(optChoices);
+                optChoices.change(() => {
+                    adminUI.elementsState[elm.name][opt] = optChoices.val();
+                    adminUI.updateElmExample(elm);
+                });
+                break;
+            }
+            case 'fontColor': {
+                let optSpan = $('<span/>');
+                let optInput = $('<input>');
+                optInput.val(adminUI.elementsState[elm.name][opt]);
+                let colorExample = $('<span/>').addClass('colorExample');
+                colorExample.css('backgroundColor', optInput.val());
+                optSpan.append(optInput).append(colorExample);
+                optDiv.append(optSpan);
+
+                // Prevent non-color codes from being input.
+                let prev = optInput.val();
+                let re = /^#[0-9a-f]{3,6}$/i;
+                optInput.focus(() => prev = optInput.val())
+                    .change(() => {
+                        if (!re.exec(optInput.val())) {
+                            $(optInput).val(prev);
+                        } else {
+                            prev = optInput.val();
+                            colorExample.css('backgroundColor', optInput.val());
+                            adminUI.elementsState[elm.name][opt] = optInput.val();
+                            adminUI.updateElmExample(elm);
+                        }
+                    });
+                break;
+            }
+            default: {
+                console.log('unrecognized option', opt);
+            }
+        }
+
+        return optDiv;
+    },
+
 
     generateVariablesFile: () => {
         // For anything on the page, use current selection
@@ -161,3 +239,17 @@ Object.filter = (obj, predicate) =>
     Object.keys(obj)
         .filter(key => predicate(obj[key]))
         .reduce((res, key) => (res[key] = obj[key], res), {});
+
+// Input [1, 6, 2, 'px'] gives ['1px', '3px', '5px']
+// Input [1, 6, 2] gives [1, 3, 5]
+Array.fromRange = ([from, to, step, type = '']) => {
+    let arr = [];
+    for (let i = from; i <= to; i += step) {
+        if (type === '') {
+            arr.push(i)
+        } else {
+            arr.push(`${i}${type}`)
+        }
+    }
+    return arr;
+};
