@@ -30,6 +30,7 @@ let adminUI = {
 
         $('#subject').change(() => {
             adminUI.subject = $('#subject').find('option:selected').val();
+            $('#elementPane').empty();
             adminUI.theme = {};
             adminUI.loadSelections();
         });
@@ -43,7 +44,7 @@ let adminUI = {
         $('select#categoriesSelect').change(() => {
             let cat = $('select#categoriesSelect').find('option:selected').val();
             $('.category').addClass('closed');
-            $(`.category[id='${cat}']`).toggleClass('closed');
+            $(`.category[id='${cat}']`).removeClass('closed');
         });
 
         let curCat = $('select#categoriesSelect').find('option:selected').val();
@@ -108,7 +109,7 @@ let adminUI = {
     },
 
     loadElm: (elm) => {
-        adminUI.elementsState[elm.name] = elm.savedOptions[adminUI.gradeLevel]
+        adminUI.elementsState[elm.name] = savedOptions[elm.name][adminUI.gradeLevel]
             .find((gradeLevelOptions) => (
                 gradeLevelOptions.subject === 'all' ||
                 gradeLevelOptions.subject === adminUI.subject

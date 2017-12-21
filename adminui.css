@@ -1,6 +1,7 @@
 body {
     font-family: 'Arial-BoldMT', 'Arial Bold', 'Arial';
     font-weight: 700;
+    overflow-y: hidden;
 }
 
 #customizePane {
@@ -16,7 +17,7 @@ body {
 
 #elementPane {
     width: 310px;
-    height: 80vh;
+    height: 68vh;
     overflow: auto;
     border: 1px solid #8DB2E4;
 }
