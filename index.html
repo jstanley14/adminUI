@@ -11,20 +11,23 @@
 <body>
 <div id="customizePane">
     <div id="generalOptions">
-        <span>Grade Level<br>
+        <div>Grade Level<br>
             <select id="grade_level" title="Grade Level">
             </select>
-        </span><br>
-        <span>Subject<br>
+        </div><br>
+        <div>Subject<br>
             <select id="subject" title="Subject">
             </select>
-        </span><br>
-        <button id="generate" onclick="adminUI.generateVariablesFile();">Generate Theme File</button>
+        </div><br>
+        <div>Category<br>
+            <select id="categoriesSelect" title="Category">
+            </select>
+        </div>
+        <button id="generate" onclick="adminUI.generateVariablesFile();" style="float:right;">Generate Theme File</button>
     </div>
     <div id="elementPane"></div>
 </div>
 <div id="examplePane">
 </div>
-
 </body>
 </html>

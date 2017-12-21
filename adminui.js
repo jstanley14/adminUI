@@ -68,6 +68,8 @@ let adminUI = {
             let catTitle = $('<h2/>').addClass('catTitle').text(category);
             catDiv.append(openArrow).append(closedArrow).append(catTitle);
 
+            $('#categoriesSelect').append($('<option/>').text(category).val(category));
+
             Object.keys(elmsByCatAndSec[category]).forEach(section => {
                 let secDiv = $('<div/>').addClass('section').attr('id', section);
                 let secTitle = $('<h4/>').addClass('secTitle').text(section);
@@ -110,17 +112,19 @@ let adminUI = {
     },
 
     updateElmExample: (elm) => {
+        let elmExample = $(`div.element#${elm.name} .elmExample`);
         Object.keys(elm.options).forEach(opt => {
-            let optName;
             switch (opt) {
                 case 'fontColor':
-                    optName = 'color';
+                    elmExample.css('color', adminUI.elementsState[elm.name][opt]);
+                    break;
+                case 'borderColor':
+                    elmExample.css('border', '1px solid');
+                    elmExample.css('borderColor', adminUI.elementsState[elm.name][opt]);
                     break;
                 default:
-                    optName = opt;
+                    elmExample.css(opt, adminUI.elementsState[elm.name][opt]);
             }
-            $(`div.element#${elm.name} .elmExample`)
-                .css(optName, adminUI.elementsState[elm.name][opt])
         });
     },
 
@@ -132,7 +136,8 @@ let adminUI = {
         switch (opt) {
             case 'fontFamily':
             case 'fontWeight':
-            case 'textTransform': {
+            case 'textTransform':
+            case 'textDecoration': {
                 let optChoices = $('<select/>').addClass('optChoices');
                 choices[`${opt}Choices`].forEach((ch) => {
                     optChoices.append($('<option/>').text(ch).val(ch))
@@ -160,8 +165,10 @@ let adminUI = {
                 });
                 break;
             }
+            case 'backgroundColor':
+            case 'borderColor':
             case 'fontColor': {
-                let optSpan = $('<span/>').addClass('fontColorChoice');
+                let optSpan = $('<span/>').addClass('colorChoice');
                 let optInput = $('<input>');
                 optInput.val(adminUI.elementsState[elm.name][opt]);
                 let colorExample = $('<span/>').addClass('colorExample');
@@ -169,7 +176,7 @@ let adminUI = {
                 optSpan.append(optInput).append(colorExample);
                 optDiv.append(optSpan);
 
-                // Prevent non-color codes from being input.
+                // Prevent invalid color codes from being input.
                 let prev = optInput.val();
                 let re = /^#[0-9a-f]{3,6}$/i;
                 optInput.focus(() => prev = optInput.val())

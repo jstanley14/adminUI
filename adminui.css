@@ -54,7 +54,7 @@ body {
     font-size: 13px;
 }
 
-.optChoices, .fontColorChoice, .elmExample {
+.optChoices, .colorChoice, .elmExample {
     float: right;
     margin-right: 5px;
 }
@@ -88,6 +88,6 @@ body {
     margin-left: 20px;
 }
 
-.fontColorChoice > input {
-    width: 50px;
+.colorChoice > input {
+    width: 55px;
 }

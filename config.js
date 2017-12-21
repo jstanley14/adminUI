@@ -2,6 +2,7 @@ let choices = {
     fontWeightChoices: [400, 500, 600, 700],
     fontFamilyChoices: ['Poppins', 'Lato', 'Bitter', 'Arial'],
     textTransformChoices: ['lowercase', 'uppercase', 'capitalize', 'none'],
+    textDecorationChoices: ['none', 'underline'],
     letterSpacingChoicesRange: [0, 5, 1, 'px'],
     lineHeightChoicesRange: [0, 10, 1, 'em'],
     fontSizeChoicesRange: [10, 38, 1, 'px']
@@ -57,6 +58,36 @@ let elements = [
                 textTransform: 'none',
                 lineHeight: '0em',
                 letterSpacing: '0px'
+            }]
+        }
+    }, {
+        name: 'hyperlink',
+        friendlyName: 'hyperlink',
+        lessName: 'a',
+        subjectSpecific: false,
+        gradeLevel: 'all',
+        category: 'Links and Lists',
+        section: 'Links',
+        options: {
+            fontColor: true,
+            textDecoration: choices.textDecorationChoices,
+            backgroundColor: true,
+            borderColor: true
+        },
+        savedOptions: {
+            [gradeLevels[0]]: [{
+                subject: 'all',
+                fontColor: '#ABCABC',
+                textDecoration: 'none',
+                backgroundColor: '#BCABCA',
+                borderColor: '#123123'
+            }],
+            [gradeLevels[1]]: [{
+                subject: 'all',
+                fontColor: '#111222',
+                textDecoration: 'underline',
+                backgroundColor: '#222333',
+                borderColor: '#333444'
             }]
         }
     }
