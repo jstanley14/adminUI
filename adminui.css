@@ -36,10 +36,6 @@ body {
     vertical-align: top;
 }
 
-.catTitle {
-    font-size: 18px;
-}
-
 .secTitle {
     font-size: 16px;
 }
@@ -59,7 +55,7 @@ body {
     margin-right: 5px;
 }
 
-.category > span.closedArrow, .section > span.closedArrow, .element > span.closedArrow {
+.section > span.closedArrow, .element > span.closedArrow {
     display: none;
 }
 
@@ -71,13 +67,9 @@ body {
     display: inline-block;
 }
 
-.catTitle, .secTitle, .elmTitle {
+.secTitle, .elmTitle {
     display: inline-block;
     margin-top: 5px;
-}
-
-.section {
-    margin-left: 20px;
 }
 
 .element {

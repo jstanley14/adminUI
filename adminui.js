@@ -6,15 +6,15 @@ let adminUI = {
     elementsState: {},
     elms: [],
 
-    initUI: function() {
+    initUI: () => {
         $('#grade_level, #subject, #elementPane').empty();
-        gradeLevels.forEach(function(grade) {
+        gradeLevels.forEach((grade) => {
             let option = $('<option/>');
             option.text(grade);
             option.val(grade);
             $('#grade_level').append(option);
         });
-        subjects.forEach(function(subject) {
+        subjects.forEach((subject) => {
             let option = $('<option/>');
             option.text(subject);
             option.val(subject);
@@ -36,12 +36,21 @@ let adminUI = {
 
         adminUI.loadSelections();
 
-        $('.catTitle, .secTitle, .elmTitle, .openArrow, .closedArrow').click((evt) => {
+        $('.secTitle, .elmTitle, .openArrow, .closedArrow').click((evt) => {
            $(evt.target).parent().toggleClass('closed');
         });
+
+        $('select#categoriesSelect').change(() => {
+            let cat = $('select#categoriesSelect').find('option:selected').val();
+            $('.category').addClass('closed');
+            $(`.category[id='${cat}']`).toggleClass('closed');
+        });
+
+        let curCat = $('select#categoriesSelect').find('option:selected').val();
+        $(`.category[id!='${curCat}']`).addClass('closed');
     },
 
-    loadSelections: function() {
+    loadSelections: () => {
         adminUI.elms = elements.filter(elm =>
             elm.gradeLevel === 'all' || elm.gradeLevel === adminUI.gradeLevel);
 
@@ -63,11 +72,6 @@ let adminUI = {
     setupPage: (elmsByCatAndSec) => {
         Object.keys(elmsByCatAndSec).forEach(category => {
             let catDiv = $('<div/>').addClass('category').attr('id', category);
-            let openArrow = $('<span/>').text('▼').addClass('openArrow');
-            let closedArrow = $('<span/>').text('▶').addClass('closedArrow');
-            let catTitle = $('<h2/>').addClass('catTitle').text(category);
-            catDiv.append(openArrow).append(closedArrow).append(catTitle);
-
             $('#categoriesSelect').append($('<option/>').text(category).val(category));
 
             Object.keys(elmsByCatAndSec[category]).forEach(section => {
