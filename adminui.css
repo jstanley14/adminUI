@@ -1,13 +1,24 @@
+body {
+    font-family: 'Arial-BoldMT', 'Arial Bold', 'Arial';
+    font-weight: 700;
+}
+
 #customizePane {
     float: left;
     /*width: 200px;*/
 
 }
 
+#generalOptions {
+    border: 1px solid #8DB2E4;
+    background: -webkit-linear-gradient(270deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(223, 232, 244, 1) 19%, rgba(204, 219, 238, 1) 100%, rgba(204, 219, 238, 1) 100%);
+}
+
 #elementPane {
     width: 310px;
     height: 80vh;
     overflow: auto;
+    border: 1px solid #8DB2E4;
 }
 
 #examplePane {
@@ -18,7 +29,65 @@
 }
 
 .colorExample {
-    width: 20px;
-    height: 20px;
+    width: 14px;
+    height: 14px;
     display: inline-block;
+    border: 2px solid black;
+    vertical-align: top;
+}
+
+.catTitle {
+    font-size: 18px;
+}
+
+.secTitle {
+    font-size: 16px;
+}
+
+.elmTitle {
+    font-size: 14px;
+}
+
+.optTitle {
+    font-family: 'ArialMT', 'Arial';
+    font-weight: 400;
+    font-size: 13px;
+}
+
+.optChoices, .fontColorChoice, .elmExample {
+    float: right;
+    margin-right: 5px;
+}
+
+.category > span.closedArrow, .section > span.closedArrow, .element > span.closedArrow {
+    display: none;
+}
+
+.closed > div, .closed > p, .closed > span.openArrow {
+    display: none;
+}
+
+.closed > span.closedArrow {
+    display: inline-block;
+}
+
+.catTitle, .secTitle, .elmTitle {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.section {
+    margin-left: 20px;
+}
+
+.element {
+    margin-left: 30px;
+}
+
+.option {
+    margin-left: 20px;
+}
+
+.fontColorChoice > input {
+    width: 50px;
 }

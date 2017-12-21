@@ -29,12 +29,16 @@ let adminUI = {
         });
 
         $('#subject').change(() => {
-            adminUI.subject = $('#subject').find('option:selected').val()
+            adminUI.subject = $('#subject').find('option:selected').val();
             adminUI.theme = {};
             adminUI.loadSelections();
         });
 
         adminUI.loadSelections();
+
+        $('.catTitle, .secTitle, .elmTitle, .openArrow, .closedArrow').click((evt) => {
+           $(evt.target).parent().toggleClass('closed');
+        });
     },
 
     loadSelections: function() {
@@ -59,13 +63,17 @@ let adminUI = {
     setupPage: (elmsByCatAndSec) => {
         Object.keys(elmsByCatAndSec).forEach(category => {
             let catDiv = $('<div/>').addClass('category').attr('id', category);
+            let openArrow = $('<span/>').text('▼').addClass('openArrow');
+            let closedArrow = $('<span/>').text('▶').addClass('closedArrow');
             let catTitle = $('<h2/>').addClass('catTitle').text(category);
-            catDiv.append(catTitle);
+            catDiv.append(openArrow).append(closedArrow).append(catTitle);
 
             Object.keys(elmsByCatAndSec[category]).forEach(section => {
                 let secDiv = $('<div/>').addClass('section').attr('id', section);
                 let secTitle = $('<h4/>').addClass('secTitle').text(section);
-                secDiv.append(secTitle);
+                let openArrow = $('<span/>').text('▼').addClass('openArrow');
+                let closedArrow = $('<span/>').text('▶').addClass('closedArrow');
+                secDiv.append(openArrow).append(closedArrow).append(secTitle);
 
                 elmsByCatAndSec[category][section].forEach(elm => {
                     adminUI.loadElm(elm);
@@ -80,12 +88,15 @@ let adminUI = {
     createElmDiv: (elm) => {
         let elmDiv = $('<div/>').addClass('element').attr('id', elm.name);
         let elmTitle = $('<span/>').addClass('elmTitle').text(elm.friendlyName);
-        elmDiv.append(elmTitle);
+        let openArrow = $('<span/>').text('▼').addClass('openArrow');
+        let closedArrow = $('<span/>').text('▶').addClass('closedArrow');
+        elmDiv.append(openArrow).append(closedArrow).append(elmTitle);
 
         let elmExample = $('<span/>').addClass('elmExample').text('Example');
         elmDiv.append(elmExample);
 
-        Object.keys(elm.options).forEach((opt) => elmDiv.append(adminUI.createOption(elm, opt)));
+        Object.keys(elm.options).forEach((opt) =>
+            elmDiv.append(adminUI.createOption(elm, opt)));
 
         return elmDiv;
     },
@@ -93,7 +104,8 @@ let adminUI = {
     loadElm: (elm) => {
         adminUI.elementsState[elm.name] = elm.savedOptions[adminUI.gradeLevel]
             .find((gradeLevelOptions) => (
-                gradeLevelOptions.subject === 'all' || gradeLevelOptions.subject === adminUI.subject
+                gradeLevelOptions.subject === 'all' ||
+                gradeLevelOptions.subject === adminUI.subject
             ));
     },
 
@@ -149,7 +161,7 @@ let adminUI = {
                 break;
             }
             case 'fontColor': {
-                let optSpan = $('<span/>');
+                let optSpan = $('<span/>').addClass('fontColorChoice');
                 let optInput = $('<input>');
                 optInput.val(adminUI.elementsState[elm.name][opt]);
                 let colorExample = $('<span/>').addClass('colorExample');
@@ -178,7 +190,7 @@ let adminUI = {
             }
         }
 
-        return optDiv;
+        return $('<p/>').append(optDiv);
     },
 
 
@@ -238,6 +250,7 @@ let adminUI = {
 $(document).ready(function() {
 
     adminUI.initUI();
+
 
 });
 
