@@ -69,5 +69,22 @@ let elements = [
             backgroundColor: true,
             borderColor: true
         }
+    }, {
+        name: 'p',
+        friendlyName: '<p> text',
+        lessName: 'p',
+        subjectSpecific: false,
+        gradeLevel: 'all',
+        category: 'Generic',
+        section: 'Paragraphs',
+        options: {
+            fontSize: choices.fontSizeChoicesRange,
+            fontColor: true,
+            fontFamily: choices.fontFamilyChoices,
+            fontWeight: choices.fontWeightChoices,
+            textTransform: choices.textTransformChoices,
+            lineHeight: choices.lineHeightChoicesRange,
+            letterSpacing: choices.letterSpacingChoicesRange
+        }
     }
 ];

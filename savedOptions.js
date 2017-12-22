@@ -94,5 +94,27 @@ let savedOptions = {
             backgroundColor: '#222333',
             borderColor: '#333444'
         }]
+    },
+    'p': {
+        [gradeLevels[0]]: [{
+            subject: 'all',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }],
+        [gradeLevels[1]]: [{
+            subject: 'all',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }]
     }
 };
