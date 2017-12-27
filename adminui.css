@@ -26,7 +26,17 @@ body {
     float: right;
     width: 700px;
     height: 600px;
-    background: url("example_act.png") top left / contain no-repeat;
+    /*background: url("example_act.png") top left / contain no-repeat;*/
+}
+
+.largeExample {
+    width: 700px;
+    height: 600px;
+}
+
+.smallExample {
+    width: 400px;
+    height: 600px;
 }
 
 .colorExample {

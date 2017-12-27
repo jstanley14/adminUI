@@ -256,13 +256,20 @@ let adminUI = {
         });
         alert(varsFile);
         console.log(varsFile);
-    }
+    },
+
+    toggleExampleSize: () =>
+        $('div#examplePane iframe')
+            .toggleClass('largeExample')
+            .toggleClass('smallExample')
 };
 
 $(document).ready(function() {
 
     adminUI.initUI();
 
+    playerManager.getUserKeyCode(123456789);
+    //console.log(playerManager.getUrl(123456789));
 
 });
 
