@@ -79,6 +79,64 @@ let savedOptions = {
             letterSpacing: '0px'
         }]
     },
+    'h4' : {
+        [gradeLevels[0]]: [{
+            subject: 'math',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }, {
+            subject: 'ela',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }, {
+            subject: 'standard',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }],
+        [gradeLevels[1]]: [{
+            subject: 'math',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }, {
+            subject: 'ela',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }, {
+            subject: 'standard',
+            fontSize: '10px',
+            fontColor: "#000000",
+            fontFamily: 'Poppins',
+            fontWeight: 400,
+            textTransform: 'none',
+            lineHeight: '0em',
+            letterSpacing: '0px'
+        }]
+    },
     'hyperlink': {
         [gradeLevels[0]]: [{
             subject: 'all',

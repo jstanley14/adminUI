@@ -205,8 +205,64 @@ let adminUI = {
         return $('<p/>').append(optDiv);
     },
 
+    generateVariablesFile:() => {
+        // update savedOptions based on elementsState
 
-    generateVariablesFile: () => {
+        Object.keys(savedOptions).forEach(elmName => {
+            if (Object.keys(adminUI.elementsState).includes(elmName)) {
+                for (let subIndex = 0; subIndex < savedOptions[elmName][adminUI.gradeLevel].length; subIndex++) {
+                    let opt = savedOptions[elmName][adminUI.gradeLevel][subIndex];
+                    if (opt.subject === 'all' || opt.subject === adminUI.subject) {
+                        savedOptions[elmName][adminUI.gradeLevel][subIndex] = adminUI.elementsState[elmName];
+                    }
+                }
+            }
+        });
+
+        let varsFile = "";
+
+        varsFile += "@subjects: ";
+        subjects.forEach(subject => varsFile += `${subject}, `);
+        varsFile = varsFile.slice(0, -2) + ";\n";
+
+        varsFile += "@grades: ";
+        gradeLevels.forEach(gradeLevel => varsFile += `${gradeLevel}, `);
+        varsFile = varsFile.slice(0, -2) + ";\n\n";
+
+        Object.keys(savedOptions).forEach(elmName => {
+            subjects.forEach(subject => {
+                gradeLevels.forEach(gradeLevel => {
+                    let opts = savedOptions[elmName][gradeLevel].find(elm =>
+                        elm.subject === subject);
+
+
+                    if (elmName === 'h4') {
+                        Object.keys(opts).forEach(optKey => {
+                            let varName = "";
+                            switch (optKey) {
+                                case 'fontColor':
+                                    varName = 'tagColor';
+                                    break;
+                                default:
+                                    varName = optKey;
+
+                            }
+                            let foo = `@${subject}-${gradeLevel}-${elements.find(elm => elm.name === elmName).lessName}-${varName}: ${opts[optKey]}\n`;
+                            varsFile += foo;
+                        });
+                        varsFile += "\n";
+                    }
+
+                });
+            });
+        });
+
+        console.log(varsFile);
+
+
+    },
+
+    fgenerateVariablesFile: () => {
         // For anything on the page, use current selection
         // Otherwise, use 1st choice in array in config
         // (Temporary logic - need to save choices and distinguish

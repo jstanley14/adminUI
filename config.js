@@ -56,6 +56,23 @@ let elements = [
             letterSpacing: choices.letterSpacingChoicesRange
         }
     }, {
+        name: 'h4',
+        friendlyName: '<h4>',
+        lessName: 'default-h4',
+        subjectSpecific: true,
+        gradeLevel: 'all',
+        category: 'Generic',
+        section: 'Headers',
+        options: {
+            fontSize: choices.fontSizeChoicesRange,
+            fontColor: true,
+            fontFamily: choices.fontFamilyChoices,
+            fontWeight: choices.fontWeightChoices,
+            textTransform: choices.textTransformChoices,
+            lineHeight: choices.lineHeightChoicesRange,
+            letterSpacing: choices.letterSpacingChoicesRange
+        }
+    }, {
         name: 'hyperlink',
         friendlyName: 'hyperlink',
         lessName: 'a',

@@ -4,6 +4,7 @@ let playerManager = {
             url: `http://c-dev-tc22.k12.com:8692/prek-test/keycode/keycode.jsp?userid=${user_id}`,
             type: 'GET',
             success: (resp) => {
+                // get and return text of 2nd h2 tag
                 console.log(resp);
             },
             error: (err) => {
