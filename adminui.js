@@ -109,11 +109,12 @@ let adminUI = {
     },
 
     loadElm: (elm) => {
-        adminUI.elementsState[elm.name] = savedOptions[elm.name][adminUI.gradeLevel]
-            .find((gradeLevelOptions) => (
-                gradeLevelOptions.subject === 'all' ||
-                gradeLevelOptions.subject === adminUI.subject
-            ));
+        let opts = savedOptions[elm.name][adminUI.gradeLevel];
+        if (!!opts[adminUI.subject]) {
+            adminUI.elementsState[elm.name] = opts[adminUI.subject];
+        } else {
+            adminUI.elementsState[elm.name] = opts['all'];
+        }
     },
 
     updateElmExample: (elm) => {
@@ -210,11 +211,11 @@ let adminUI = {
 
         Object.keys(savedOptions).forEach(elmName => {
             if (Object.keys(adminUI.elementsState).includes(elmName)) {
-                for (let subIndex = 0; subIndex < savedOptions[elmName][adminUI.gradeLevel].length; subIndex++) {
-                    let opt = savedOptions[elmName][adminUI.gradeLevel][subIndex];
-                    if (opt.subject === 'all' || opt.subject === adminUI.subject) {
-                        savedOptions[elmName][adminUI.gradeLevel][subIndex] = adminUI.elementsState[elmName];
-                    }
+                let opt = savedOptions[elmName][adminUI.gradeLevel];
+                if (!!opt[adminUI.subject]) {
+                    savedOptions[elmName][adminUI.gradeLevel][adminUI.subject] = adminUI.elementsState[elmName];
+                } else {
+                    savedOptions[elmName][adminUI.gradeLevel]['all'] = adminUI.elementsState[elmName];
                 }
             }
         });
@@ -232,86 +233,61 @@ let adminUI = {
         Object.keys(savedOptions).forEach(elmName => {
             subjects.forEach(subject => {
                 gradeLevels.forEach(gradeLevel => {
-                    let opts = savedOptions[elmName][gradeLevel].find(elm =>
-                        elm.subject === subject);
-
-
-                    if (elmName === 'h4') {
-                        Object.keys(opts).forEach(optKey => {
-                            let varName = "";
-                            switch (optKey) {
-                                case 'fontColor':
-                                    varName = 'tagColor';
-                                    break;
-                                default:
-                                    varName = optKey;
-
-                            }
-                            let foo = `@${subject}-${gradeLevel}-${elements.find(elm => elm.name === elmName).lessName}-${varName}: ${opts[optKey]}\n`;
-                            varsFile += foo;
-                        });
-                        varsFile += "\n";
+                    let opts;
+                    if (savedOptions[elmName][gradeLevel]['all']) {
+                        opts = savedOptions[elmName][gradeLevel]['all'];
+                    } else {
+                        opts = savedOptions[elmName][gradeLevel][subject];
                     }
 
-                });
-            });
-        });
+                    Object.keys(opts).forEach(optKey => {
+                        let varName = "";
+                        switch (optKey) {
+                            case 'fontColor':
+                                varName = 'tag-color';
+                                break;
+                            case 'fontSize':
+                                varName = 'font-size';
+                                break;
+                            case 'fontFamily':
+                                varName = 'font-family';
+                                break;
+                            case 'fontWeight':
+                                varName = 'font-weight';
+                                break;
+                            case 'textTransform':
+                                varName = 'text-transform';
+                                break;
+                            case 'lineHeight':
+                                varName = 'line-height';
+                                break;
+                            case 'letterSpacing':
+                                varName = 'letter-spacing';
+                                break;
+                            case 'textDecoration':
+                                varName = 'text-decoration';
+                                break;
+                            case 'backgroundColor':
+                                varName = 'background-color';
+                                break;
+                            case 'borderColor':
+                                varName = 'border-color';
+                                break;
+                            default:
+                                console.log('unknown optKey', optKey);
+                                varName = optKey;
 
-        console.log(varsFile);
-
-
-    },
-
-    fgenerateVariablesFile: () => {
-        // For anything on the page, use current selection
-        // Otherwise, use 1st choice in array in config
-        // (Temporary logic - need to save choices and distinguish
-        //   choices by subject (when applicable.))
-
-        Object.keys(config.elements).forEach(key => {
-            let elm = config.elements[key];
-            // Need to find this way because ID can have spaces in it.
-            let $onPageElm = $(`div[id='${elm.name}']`);
-            adminUI.theme[key] = {};
-            adminUI.theme[key].options = [];
-            if ($onPageElm.length) {
-                let choices = $onPageElm.children('.elementAttributeChoice');
-                Array.from(choices).forEach(choice => {
-                    let name = $(choice).attr('id');
-                    let value = $(choice).find('option:selected').val();
-                    let subjectSpecific = elm.subject !== 'all';
-                    adminUI.theme[key].options.push({ name: name, value: value, subjectSpecific: subjectSpecific });
-                });
-            } else {
-                config.elements[key].options.forEach(opt => {
-                    let name = Object.keys(opt)[0];
-                    let value = opt[name][0];
-                    let subjectSpecific = elm.subject !== 'all';
-                    adminUI.theme[key].options.push({ name: name, value: value, subjectSpecific: subjectSpecific });
-                });
-            }
-        });
-
-        // Have theme object - export to .less variables file.
-        let varsFile = "";
-        varsFile += "@subjects: ";
-        config.subjects.forEach(subject =>
-            varsFile += `${subject}, `
-        );
-        varsFile = varsFile.slice(0, -2) + ";\n\n";
-
-        Object.keys(adminUI.theme).forEach(key => {
-            let tagName = config.elements[key].tagName;
-            adminUI.theme[key].options.forEach(option => {
-                config.gradeLevels.forEach(gradeLevel => {
-                    config.subjects.forEach(subject => {
-                        varsFile += `@${gradeLevel}_${subject}_${tagName}_${option.name}: ${option.value};\n`;
+                        }
+                        varsFile += `@${subject}-${gradeLevel}-${elements.find(elm => elm.name === elmName).lessName}-${varName}: ${opts[optKey]};\n`;
                     });
+                    varsFile += "\n";
                 });
             });
         });
-        alert(varsFile);
+
         console.log(varsFile);
+
+
     },
 
     toggleExampleSize: () =>
