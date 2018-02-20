@@ -109,11 +109,16 @@ let adminUI = {
     },
 
     loadElm: (elm) => {
-        let opts = savedOptions[elm.name][adminUI.gradeLevel];
-        if (!!opts[adminUI.subject]) {
-            adminUI.elementsState[elm.name] = opts[adminUI.subject];
+        let savedElm = savedOptions[elm.name];
+        if (!!savedElm) {
+            let opts = savedOptions[elm.name][adminUI.gradeLevel];
+            if (!!opts[adminUI.subject]) {
+                adminUI.elementsState[elm.name] = opts[adminUI.subject];
+            } else {
+                adminUI.elementsState[elm.name] = opts['all'];
+            }
         } else {
-            adminUI.elementsState[elm.name] = opts['all'];
+            console.log('Missing savedOpts for elm', elm);
         }
     },
 

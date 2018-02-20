@@ -253,18 +253,6 @@ let elements = [
             backgroundColor: true
         }
     }, {
-        name: 'BG Light',
-        friendlyName: 'BG Light',
-        lessName: '???????',
-        subjectSpecific: true,
-        gradeLevel: 'gk-5',
-        category: 'Backgrounds',
-        section: 'Backgrounds',
-        options: {
-            fontColor: true,
-            backgroundColor: true
-        }
-    }, {
         name: 'BG Gray',
         friendlyName: 'BG Gray',
         lessName: '???????',
@@ -287,18 +275,6 @@ let elements = [
         options: {
             fontColor: true,
             backgroundColor: true // overwrites other fontColors...
-        }
-    }, {
-        name: 'BG Default',
-        friendlyName: 'BG Default',
-        lessName: '???????',
-        subjectSpecific: true,
-        gradeLevel: 'gk-5',
-        category: 'Backgrounds',
-        section: 'Backgrounds',
-        options: {
-            fontColor: true,
-            backgroundColor: true
         }
     }, {
         name: 'BG Pattern 1',
@@ -341,7 +317,7 @@ let elements = [
         friendlyName: 'Highlight Body',
         lessName: '?????',
         subjectSpecific: true,
-        gradeLeveL: 'gk-5',
+        gradeLevel: 'gk-5',
         category: 'Generic',
         section: 'Highlights',
         options: {
